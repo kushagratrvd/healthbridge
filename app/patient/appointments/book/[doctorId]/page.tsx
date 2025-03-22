@@ -6,7 +6,7 @@ import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { Star, MapPin, Phone, Mail, Award, Stethoscope, Building, CheckCircle, ArrowLeft, Video } from "lucide-react"
 import { useAppContext } from "@/context/app-context"
-import { useTranslation } from "@/lib/translation-service"
+import { useTranslation } from "@/components/translation-provider"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
