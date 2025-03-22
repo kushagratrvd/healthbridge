@@ -170,7 +170,7 @@ export function GoogleSignInButton({
       {(!isScriptLoaded || error) && (
         <Button
           type="button"
-          variant="outline"
+          variant="secondary"
           className="w-full gap-2"
           onClick={handleFallbackClick}
           disabled={isLoading}
