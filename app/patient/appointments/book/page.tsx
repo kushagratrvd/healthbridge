@@ -3,7 +3,10 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Search, Filter } from "lucide-react"
-import { useAppContext } from "@/context/app-context"
+import { useAppContext } from "@/providers/app-provider"
+
+// Add dynamic rendering configuration
+export const dynamic = "force-dynamic"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
