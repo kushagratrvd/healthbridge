@@ -251,7 +251,7 @@ export default function AuthPage() {
                       <span>Secure authentication</span>
                     </div>
 
-                    <Alert variant="outline" className="bg-muted/50">
+                    <Alert variant="default" className="bg-muted/50">
                       <AlertTitle>Demo Accounts</AlertTitle>
                       <AlertDescription className="text-xs">
                         <p className="mb-1">Use these credentials to test different user roles:</p>
