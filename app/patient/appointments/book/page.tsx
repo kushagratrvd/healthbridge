@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Search, Filter } from "lucide-react"
-import { useAppContext } from "@/providers/app-provider"
+import { useAppContext } from "@/components/providers/app-provider"
 
 // Add dynamic rendering configuration
 export const dynamic = "force-dynamic"
@@ -19,7 +19,7 @@ export default function BookAppointmentPage() {
   const { doctors, isLoading } = useAppContext()
   const [selectedSpecialty, setSelectedSpecialty] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState("")
-  const [filteredDoctors, setFilteredDoctors] = useState(doctors || [])
+  const [filteredDoctors, setFilteredDoctors] = useState<any[]>([])
   const router = useRouter()
 
   useEffect(() => {
@@ -56,6 +56,14 @@ export default function BookAppointmentPage() {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-lg text-muted-foreground">Loading doctors...</div>
+      </div>
+    )
+  }
+
+  if (!doctors) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-lg text-muted-foreground">No doctors available</div>
       </div>
     )
   }
