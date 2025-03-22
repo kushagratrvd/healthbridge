@@ -5,7 +5,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { Star, MapPin, Phone, Mail, Award, Stethoscope, Building, CheckCircle, ArrowLeft, Video } from "lucide-react"
-import { useAppContext } from "@/context/app-context"
+import { useAppContext, type Doctor } from "@/providers/app-provider"
 import { useTranslation } from "@/components/translation-provider"
 
 import { Button } from "@/components/ui/button"
@@ -16,7 +16,6 @@ import { Separator } from "@/components/ui/separator"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { RelatedDoctors } from "@/components/appointment/related-doctors"
-import type { Doctor } from "@/context/app-context"
 
 // Add dynamic rendering configuration
 export const dynamic = "force-dynamic"
@@ -24,7 +23,7 @@ export const dynamic = "force-dynamic"
 // Update the availableTimeSlots to use dynamic dates
 // Replace the static availableTimeSlots with this dynamic implementation
 export default function DoctorProfilePage({ params }: { params: { doctorId: string } }) {
-  const { doctors, addAppointment, currencySymbol } = useAppContext()
+  const { doctors, addAppointment, currencySymbol, isLoading: contextLoading } = useAppContext()
   const [doctor, setDoctor] = useState<Doctor | null>(null)
   const [loading, setLoading] = useState(true)
   // Use this in your component
@@ -87,14 +86,14 @@ export default function DoctorProfilePage({ params }: { params: { doctorId: stri
   }, [])
 
   useEffect(() => {
-    if (doctors && doctors.length > 0) {
+    if (!contextLoading && doctors && doctors.length > 0) {
       const foundDoctor = doctors.find((doc) => doc._id === params.doctorId)
       if (foundDoctor) {
         setDoctor(foundDoctor)
       }
       setLoading(false)
     }
-  }, [doctors, params.doctorId])
+  }, [doctors, params.doctorId, contextLoading])
 
   const handleBookAppointment = () => {
     if (!selectedTime || !doctor) return
@@ -118,7 +117,7 @@ export default function DoctorProfilePage({ params }: { params: { doctorId: stri
     return date.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })
   }
 
-  if (loading) {
+  if (loading || contextLoading) {
     return (
       <div className="flex justify-center items-center min-h-[60vh]">
         <div className="h-16 w-16 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>

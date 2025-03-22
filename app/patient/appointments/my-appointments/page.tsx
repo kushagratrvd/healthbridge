@@ -1,6 +1,6 @@
 "use client"
 
-import { useAppContext } from "@/context/app-context"
+import { useAppContext } from "@/providers/app-provider"
 import { useTranslation } from "@/components/translation-provider"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -13,12 +13,22 @@ import { useState } from "react"
 export const dynamic = "force-dynamic"
 
 export default function MyAppointmentsPage() {
-  const { appointments, removeAppointment } = useAppContext()
+  const { appointments, removeAppointment, isLoading } = useAppContext()
   const [confirmDelete, setConfirmDelete] = useState<number | null>(null)
 
   const handleRemoveAppointment = (index: number) => {
     removeAppointment(index)
     setConfirmDelete(null)
+  }
+
+  if (isLoading) {
+    return (
+      <div className="container max-w-4xl py-8">
+        <div className="flex justify-center items-center min-h-[60vh]">
+          <div className="h-16 w-16 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+        </div>
+      </div>
+    )
   }
 
   return (

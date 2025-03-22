@@ -109,34 +109,40 @@ type AppContextType = {
   appointments: Appointment[]
   addAppointment: (appointment: Appointment) => void
   removeAppointment: (index: number) => void
+  isLoading: boolean
 }
 
 // Create the context with default values
 const AppContext = createContext<AppContextType>({
-  doctors: [],
+  doctors: doctorsData,
   currencySymbol: "$",
   appointments: [],
   addAppointment: () => {},
   removeAppointment: () => {},
+  isLoading: true
 })
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [isClient, setIsClient] = useState(false)
   const [appointments, setAppointments] = useState<Appointment[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
   // Use useEffect to ensure this only runs on the client
   useEffect(() => {
     setIsClient(true)
+    setIsLoading(true)
 
     // Load appointments from localStorage if available
-    const savedAppointments = localStorage.getItem("appointments")
-    if (savedAppointments) {
-      try {
+    try {
+      const savedAppointments = localStorage.getItem("appointments")
+      if (savedAppointments) {
         setAppointments(JSON.parse(savedAppointments))
-      } catch (e) {
-        console.error("Failed to parse saved appointments", e)
       }
+    } catch (e) {
+      console.error("Failed to parse saved appointments", e)
     }
+
+    setIsLoading(false)
   }, [])
 
   // Save appointments to localStorage when they change
@@ -160,6 +166,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     appointments,
     addAppointment,
     removeAppointment,
+    isLoading
   }
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>
@@ -168,7 +175,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 // Custom hook to use the context
 export function useAppContext() {
   const context = useContext(AppContext)
-  if (context === undefined) {
+  if (!context) {
     throw new Error("useAppContext must be used within an AppProvider")
   }
   return context
