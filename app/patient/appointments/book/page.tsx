@@ -16,13 +16,15 @@ import { SpecialtyMenu } from "@/components/appointment/specialty-menu"
 import { DoctorCard } from "@/components/appointment/doctor-card"
 
 export default function BookAppointmentPage() {
-  const { doctors } = useAppContext()
+  const { doctors, isLoading } = useAppContext()
   const [selectedSpecialty, setSelectedSpecialty] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState("")
-  const [filteredDoctors, setFilteredDoctors] = useState(doctors)
+  const [filteredDoctors, setFilteredDoctors] = useState(doctors || [])
   const router = useRouter()
 
   useEffect(() => {
+    if (!doctors) return
+
     // Start with all doctors
     let filtered = [...doctors]
 
@@ -48,6 +50,14 @@ export default function BookAppointmentPage() {
 
   const handleSpecialtySelect = (value: string) => {
     setSelectedSpecialty(value === "all" ? null : value)
+  }
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-lg text-muted-foreground">Loading doctors...</div>
+      </div>
+    )
   }
 
   return (
