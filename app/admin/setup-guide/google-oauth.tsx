@@ -1,3 +1,5 @@
+"use client"
+
 export default function GoogleOAuthSetupGuide() {
   return (
     <div className="container max-w-4xl py-8">
@@ -38,9 +40,9 @@ export default function GoogleOAuthSetupGuide() {
         <div className="p-4 border rounded-lg">
           <h2 className="text-xl font-semibold mb-4">Step 3: Create OAuth Client ID</h2>
           <ol className="list-decimal pl-5 space-y-2">
-            <li>Go to "APIs & Services" > "Credentials"</li>
-            <li>Click "Create Credentials" and select "OAuth client ID"</li>
-            <li>Select "Web application" as the application type</li>
+            <li>Go to &quot;APIs & Services&quot; → &quot;Credentials&quot;</li>
+            <li>Click &quot;Create Credentials&quot; and select &quot;OAuth client ID&quot;</li>
+            <li>Select &quot;Web application&quot; as the application type</li>
             <li>Add a name for your OAuth client</li>
             <li>Add your domain to the "Authorized JavaScript origins" (e.g., https://yourdomain.com)</li>
             <li>Add your redirect URIs (e.g., https://yourdomain.com/auth/callback)</li>
