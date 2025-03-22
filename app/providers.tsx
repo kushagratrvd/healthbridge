@@ -6,18 +6,18 @@ import { AppProvider } from "@/providers/app-provider"
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="system"
-      enableSystem
-      disableTransitionOnChange
-    >
-      <TranslationProvider>
-        <AppProvider>
+    <AppProvider>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        <TranslationProvider>
           {children}
-        </AppProvider>
-      </TranslationProvider>
-    </ThemeProvider>
+        </TranslationProvider>
+      </ThemeProvider>
+    </AppProvider>
   )
 }
 

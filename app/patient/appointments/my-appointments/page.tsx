@@ -1,12 +1,16 @@
 "use client"
 
 import { useAppContext } from "@/context/app-context"
+import { useTranslation } from "@/components/translation-provider"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Calendar, Clock, MapPin, Video, X } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useState } from "react"
+
+// Add dynamic rendering configuration
+export const dynamic = "force-dynamic"
 
 export default function MyAppointmentsPage() {
   const { appointments, removeAppointment } = useAppContext()

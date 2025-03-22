@@ -18,6 +18,9 @@ import { Label } from "@/components/ui/label"
 import { RelatedDoctors } from "@/components/appointment/related-doctors"
 import type { Doctor } from "@/context/app-context"
 
+// Add dynamic rendering configuration
+export const dynamic = "force-dynamic"
+
 // Update the availableTimeSlots to use dynamic dates
 // Replace the static availableTimeSlots with this dynamic implementation
 export default function DoctorProfilePage({ params }: { params: { doctorId: string } }) {
