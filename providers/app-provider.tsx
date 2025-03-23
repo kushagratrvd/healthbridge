@@ -126,11 +126,15 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [isClient, setIsClient] = useState(false)
   const [appointments, setAppointments] = useState<Appointment[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [doctors, setDoctors] = useState<Doctor[]>([])
 
   // Use useEffect to ensure this only runs on the client
   useEffect(() => {
     setIsClient(true)
     
+    // Initialize doctors data
+    setDoctors(doctorsData)
+
     // Simulate loading delay
     const timer = setTimeout(() => {
       setIsLoading(false)
@@ -165,7 +169,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }
 
   const value = {
-    doctors: doctorsData,
+    doctors,
     currencySymbol: "$",
     appointments,
     addAppointment,
