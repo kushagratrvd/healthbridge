@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { Star, MapPin, Phone, Mail, Award, Stethoscope, Building, CheckCircle, ArrowLeft, Video } from "lucide-react"
+import { Star, MapPin, Phone, Mail, Award, Stethoscope, Building, CheckCircle, ArrowLeft, Video, Calendar } from "lucide-react"
 import { useAppContext, type Doctor } from "@/providers/app-provider"
 import { useTranslation } from "@/components/translation-provider"
 
@@ -16,6 +16,7 @@ import { Separator } from "@/components/ui/separator"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { RelatedDoctors } from "@/components/appointment/related-doctors"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 // Add dynamic rendering configuration
 export const dynamic = "force-dynamic"
@@ -30,60 +31,22 @@ export default function DoctorProfilePage({ params }: { params: { doctorId: stri
   const [appointmentType, setAppointmentType] = useState("video")
   const [showPopup, setShowPopup] = useState(false)
   const router = useRouter()
-  const [availableTimeSlots, setAvailableTimeSlots] = useState<Record<string, string[]>>({})
   const [selectedDate, setSelectedDate] = useState<string>("")
-  const [selectedTime, setSelectedTime] = useState<string | null>(null)
+  const [selectedTime, setSelectedTime] = useState<string>("")
   const { t } = useTranslation()
 
-  useEffect(() => {
-    // Generate dynamic time slots for the next 5 days
-    const generateTimeSlots = () => {
-      const slots: Record<string, string[]> = {}
-      const today = new Date()
+  // Get available dates (next 7 days)
+  const availableDates = Array.from({ length: 7 }, (_, i) => {
+    const date = new Date()
+    date.setDate(date.getDate() + i)
+    return date.toISOString().split("T")[0]
+  })
 
-      for (let i = 0; i < 5; i++) {
-        const date = new Date()
-        date.setDate(today.getDate() + i)
-        const dateString = date.toISOString().split("T")[0] // YYYY-MM-DD
-
-        // Generate 3-5 random time slots for each day
-        const allTimeSlots = [
-          "09:00 AM",
-          "10:30 AM",
-          "11:00 AM",
-          "01:30 PM",
-          "02:00 PM",
-          "03:30 PM",
-          "04:00 PM",
-          "05:30 PM",
-        ]
-
-        const numberOfSlots = Math.floor(Math.random() * 3) + 3 // 3 to 5 slots
-        const selectedSlots = [...allTimeSlots]
-          .sort(() => 0.5 - Math.random())
-          .slice(0, numberOfSlots)
-          .sort((a, b) => {
-            // Sort by AM/PM first, then by time
-            const aIsPM = a.includes("PM")
-            const bIsPM = b.includes("PM")
-            if (aIsPM !== bIsPM) return aIsPM ? 1 : -1
-            return a.localeCompare(b)
-          })
-
-        slots[dateString] = selectedSlots
-      }
-
-      return slots
-    }
-
-    const slots = generateTimeSlots()
-    setAvailableTimeSlots(slots)
-
-    // Set the first date as selected by default
-    if (Object.keys(slots).length > 0) {
-      setSelectedDate(Object.keys(slots)[0])
-    }
-  }, [])
+  // Mock available time slots
+  const availableTimes = [
+    "09:00 AM", "10:00 AM", "11:00 AM",
+    "02:00 PM", "03:00 PM", "04:00 PM"
+  ]
 
   useEffect(() => {
     if (!contextLoading && doctors && doctors.length > 0) {
@@ -96,12 +59,12 @@ export default function DoctorProfilePage({ params }: { params: { doctorId: stri
   }, [doctors, params.doctorId, contextLoading])
 
   const handleBookAppointment = () => {
-    if (!selectedTime || !doctor) return
+    if (!selectedDate || !selectedTime || !doctor) return
 
     addAppointment({
       doctor,
-      date: new Date(selectedDate).toDateString(),
-      time: selectedTime,
+      date: selectedDate,
+      time: selectedTime
     })
 
     setShowPopup(true)
@@ -435,46 +398,39 @@ export default function DoctorProfilePage({ params }: { params: { doctorId: stri
                   {/* Date Selection */}
                   <div>
                     <h3 className="text-sm font-medium mb-3">Select Date</h3>
-                    <div className="flex overflow-x-auto pb-2 gap-2">
-                      {Object.keys(availableTimeSlots).map((date) => (
-                        <div
-                          key={date}
-                          className={`flex-shrink-0 cursor-pointer rounded-md border p-3 text-center ${
-                            selectedDate === date
-                              ? "border-primary bg-primary/10 text-primary"
-                              : "border-muted hover:border-primary/50"
-                          }`}
-                          onClick={() => {
-                            setSelectedDate(date)
-                            setSelectedTime(null)
-                          }}
-                        >
-                          <p className="text-xs font-medium">{formatDate(date).split(",")[0]}</p>
-                          <p className="text-sm">{formatDate(date).split(",")[1].trim().split(" ")[1]}</p>
-                        </div>
-                      ))}
-                    </div>
+                    <Select onValueChange={setSelectedDate}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Pick a date" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {availableDates.map((date) => (
+                          <SelectItem key={date} value={date}>
+                            {new Date(date).toLocaleDateString("en-US", {
+                              weekday: "short",
+                              month: "short",
+                              day: "numeric"
+                            })}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
 
                   {/* Time Selection */}
                   <div>
                     <h3 className="text-sm font-medium mb-3">Select Time</h3>
-                    <div className="grid grid-cols-2 gap-2">
-                      {selectedDate &&
-                        availableTimeSlots[selectedDate]?.map((time) => (
-                          <div
-                            key={time}
-                            className={`cursor-pointer rounded-md border p-2 text-center ${
-                              selectedTime === time
-                                ? "border-primary bg-primary/10 text-primary"
-                                : "border-muted hover:border-primary/50"
-                            }`}
-                            onClick={() => setSelectedTime(time)}
-                          >
-                            <p className="text-sm">{time}</p>
-                          </div>
+                    <Select onValueChange={setSelectedTime}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Pick a time" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {availableTimes.map((time) => (
+                          <SelectItem key={time} value={time}>
+                            {time}
+                          </SelectItem>
                         ))}
-                    </div>
+                      </SelectContent>
+                    </Select>
                   </div>
 
                   <div className="pt-2">
@@ -485,7 +441,8 @@ export default function DoctorProfilePage({ params }: { params: { doctorId: stri
                     </p>
                   </div>
 
-                  <Button className="w-full" size="lg" disabled={!selectedTime} onClick={handleBookAppointment}>
+                  <Button className="w-full" size="lg" disabled={!selectedDate || !selectedTime} onClick={handleBookAppointment}>
+                    <Calendar className="mr-2 h-4 w-4" />
                     {t("book_appointment")}
                   </Button>
 
