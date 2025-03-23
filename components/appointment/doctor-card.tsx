@@ -1,41 +1,58 @@
 "use client"
 
-import Image from "next/image"
+import { Doctor } from "@/providers/app-provider"
+import { Card, CardContent } from "@/components/ui/card"
 import { useRouter } from "next/navigation"
-import { useAppContext, type Doctor } from "@/providers/app-provider"
+import Image from "next/image"
 
-type DoctorCardProps = {
+interface DoctorCardProps {
   doctor: Doctor
   compact?: boolean
 }
 
-export function DoctorCard({ doctor, compact = false }: DoctorCardProps) {
-  const { currencySymbol } = useAppContext()
+export function DoctorCard({ doctor, compact }: DoctorCardProps) {
   const router = useRouter()
 
   return (
-    <div
+    <Card 
+      className="overflow-hidden cursor-pointer transition-all hover:shadow-lg"
       onClick={() => router.push(`/patient/appointments/book/${doctor._id}`)}
-      className="border border-blue-200 rounded-xl overflow-hidden cursor-pointer hover:translate-y-[-10px] transition-all duration-500"
     >
-      <div className={`relative ${compact ? "aspect-square" : "aspect-[4/3]"}`}>
-        <Image src={doctor.image || "/placeholder.svg"} alt={doctor.name} fill className="object-cover bg-blue-50" />
-      </div>
-      <div className="p-4">
-        <div className="flex items-center gap-2 text-sm text-center text-green-500">
-          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-          <p>Available</p>
+      <CardContent className="p-0">
+        <div className="relative w-full aspect-[4/3] bg-muted">
+          <Image
+            src={doctor.image || "/placeholder.svg"}
+            alt={`Dr. ${doctor.name}`}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            priority={true}
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.src = "/placeholder.svg";
+            }}
+          />
         </div>
-        <p className="text-gray-900 text-lg font-medium">{doctor.name}</p>
-        <p className="text-gray-600 text-sm">{doctor.speciality}</p>
-        {doctor.fees && !compact && (
-          <p className="text-gray-700 text-sm mt-1">
-            {currencySymbol}
-            {doctor.fees} per consultation
-          </p>
-        )}
-      </div>
-    </div>
+        <div className="p-4">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="inline-flex items-center gap-1">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+              </span>
+              <span className="text-sm text-green-600">Available</span>
+            </span>
+          </div>
+          <h3 className="font-semibold text-lg">{doctor.name}</h3>
+          <p className="text-muted-foreground">{doctor.speciality}</p>
+          {!compact && (
+            <p className="text-sm text-muted-foreground mt-1">
+              ${doctor.fees} per consultation
+            </p>
+          )}
+        </div>
+      </CardContent>
+    </Card>
   )
 }
 

@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: {
+    unoptimized: true,
+  },
   output: 'standalone',
   images: {
     domains: ['placeholder.com', 'images.unsplash.com'],
