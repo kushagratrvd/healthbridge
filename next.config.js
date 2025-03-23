@@ -2,7 +2,13 @@
 const nextConfig = {
   output: 'standalone',
   images: {
-    domains: ['placeholder.com'],
+    domains: ['placeholder.com', 'images.unsplash.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+    ],
   },
   staticPageGenerationTimeout: 120,
   compiler: {

@@ -34,6 +34,7 @@ export default function DoctorProfilePage({ params }: { params: { doctorId: stri
   const [selectedDate, setSelectedDate] = useState<string>("")
   const [selectedTime, setSelectedTime] = useState<string>("")
   const { t } = useTranslation()
+  const [error, setError] = useState<string | null>(null)
 
   // Get available dates (next 7 days)
   const availableDates = Array.from({ length: 7 }, (_, i) => {
@@ -53,6 +54,9 @@ export default function DoctorProfilePage({ params }: { params: { doctorId: stri
       const foundDoctor = doctors.find((doc) => doc._id === params.doctorId)
       if (foundDoctor) {
         setDoctor(foundDoctor)
+        setError(null)
+      } else {
+        setError("Doctor not found")
       }
       setLoading(false)
     }
@@ -61,17 +65,20 @@ export default function DoctorProfilePage({ params }: { params: { doctorId: stri
   const handleBookAppointment = () => {
     if (!selectedDate || !selectedTime || !doctor) return
 
-    addAppointment({
-      doctor,
-      date: selectedDate,
-      time: selectedTime
-    })
-
-    setShowPopup(true)
-    setTimeout(() => {
-      setShowPopup(false)
-      router.push("/patient/appointments/my-appointments")
-    }, 3000)
+    try {
+      addAppointment({
+        doctor,
+        date: selectedDate,
+        time: selectedTime
+      })
+      setShowPopup(true)
+      setTimeout(() => {
+        setShowPopup(false)
+        router.push("/patient/appointments/my-appointments")
+      }, 3000)
+    } catch (err) {
+      setError("Failed to book appointment. Please try again.")
+    }
   }
 
   // Format date for display
@@ -82,27 +89,41 @@ export default function DoctorProfilePage({ params }: { params: { doctorId: stri
 
   if (loading || contextLoading) {
     return (
-      <div className="flex justify-center items-center min-h-[60vh]">
-        <div className="h-16 w-16 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+      <div className="container max-w-4xl py-8">
+        <div className="flex justify-center items-center min-h-[60vh]">
+          <div className="flex flex-col items-center gap-4">
+            <div className="h-16 w-16 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+            <p className="text-muted-foreground">Loading doctor details...</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="container max-w-4xl py-8">
+        <Card>
+          <CardContent className="flex flex-col items-center justify-center py-10">
+            <div className="text-center">
+              <h1 className="text-2xl font-bold mb-4">{error}</h1>
+              <Button onClick={() => router.back()}>Go Back</Button>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     )
   }
 
   if (!doctor) {
     return (
-      <div className="container max-w-6xl py-8">
-        <Button variant="ghost" className="mb-6 pl-0 gap-2" onClick={() => router.back()}>
-          <ArrowLeft className="h-4 w-4" />
-          Back to Doctors
-        </Button>
-
+      <div className="container max-w-4xl py-8">
         <Card>
-          <CardContent className="p-6 text-center">
-            <h1 className="text-2xl font-bold mb-4">Doctor Not Found</h1>
-            <p className="text-muted-foreground mb-6">
-              The doctor you're looking for doesn't exist or has been removed.
-            </p>
-            <Button onClick={() => router.push("/patient/appointments/book")}>Browse All Doctors</Button>
+          <CardContent className="flex flex-col items-center justify-center py-10">
+            <div className="text-center">
+              <h1 className="text-2xl font-bold mb-4">Doctor not found</h1>
+              <Button onClick={() => router.back()}>Go Back</Button>
+            </div>
           </CardContent>
         </Card>
       </div>
