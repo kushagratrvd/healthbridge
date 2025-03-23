@@ -114,7 +114,7 @@ type AppContextType = {
 
 // Create the context with default values
 const AppContext = createContext<AppContextType>({
-  doctors: doctorsData,
+  doctors: [],
   currencySymbol: "$",
   appointments: [],
   addAppointment: () => {},
@@ -130,7 +130,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
   // Use useEffect to ensure this only runs on the client
   useEffect(() => {
     setIsClient(true)
-    setIsLoading(true)
+    
+    // Simulate loading delay
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 1000)
 
     // Load appointments from localStorage if available
     try {
@@ -142,7 +146,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       console.error("Failed to parse saved appointments", e)
     }
 
-    setIsLoading(false)
+    return () => clearTimeout(timer)
   }, [])
 
   // Save appointments to localStorage when they change

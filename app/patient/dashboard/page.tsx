@@ -54,7 +54,6 @@ export default function PatientDashboard() {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm" className="gap-2">
                   <Avatar className="h-8 w-8">
-                    <AvatarImage src="/doc4.png" alt={userName} />
                     <AvatarFallback>
                       {userName
                         .split(" ")

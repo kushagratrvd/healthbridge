@@ -54,16 +54,30 @@ export default function BookAppointmentPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-lg text-muted-foreground">Loading doctors...</div>
+      <div className="min-h-screen bg-background">
+        <div className="container max-w-6xl py-8">
+          <div className="flex items-center justify-center min-h-[60vh]">
+            <div className="flex flex-col items-center gap-4">
+              <div className="h-16 w-16 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+              <div className="text-lg text-muted-foreground">Loading doctors...</div>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }
 
-  if (!doctors) {
+  if (!doctors || doctors.length === 0) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-lg text-muted-foreground">No doctors available</div>
+      <div className="min-h-screen bg-background">
+        <div className="container max-w-6xl py-8">
+          <div className="flex items-center justify-center min-h-[60vh]">
+            <div className="text-center">
+              <div className="text-lg font-medium text-muted-foreground mb-4">No doctors available</div>
+              <Button onClick={() => router.refresh()}>Try Again</Button>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }
