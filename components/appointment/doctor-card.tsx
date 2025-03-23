@@ -2,8 +2,7 @@
 
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { useAppContext } from "@/context/app-context"
-import type { Doctor } from "@/context/app-context"
+import { useAppContext, type Doctor } from "@/providers/app-provider"
 
 type DoctorCardProps = {
   doctor: Doctor
