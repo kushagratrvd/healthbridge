@@ -2,30 +2,29 @@
 
 import { useEffect, useState } from "react"
 import Image from "next/image"
-import { ExternalLink } from "lucide-react"
+import Link from "next/link"
+import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { Skeleton } from "@/components/ui/skeleton"
 
-interface NewsItem {
+interface NewsArticle {
   title: string
   description: string
   url: string
   urlToImage: string
   publishedAt: string
-  source: {
-    name: string
-  }
 }
 
 export function NewsSection() {
-  const [news, setNews] = useState<NewsItem[]>([])
+  const [news, setNews] = useState<NewsArticle[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    async function fetchNews() {
+    const fetchNews = async () => {
       try {
         const response = await fetch('/api/news')
         const data = await response.json()
-        setNews(data.articles)
+        setNews(data.articles || [])
       } catch (error) {
         console.error('Error fetching news:', error)
       } finally {
@@ -38,55 +37,49 @@ export function NewsSection() {
 
   if (loading) {
     return (
-      <div className="w-full py-12">
-        <div className="container">
-          <div className="flex justify-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-          </div>
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {[...Array(6)].map((_, i) => (
+          <Card key={i} className="overflow-hidden">
+            <Skeleton className="w-full h-48" />
+            <CardContent className="p-4">
+              <Skeleton className="h-4 w-3/4 mb-2" />
+              <Skeleton className="h-4 w-full" />
+            </CardContent>
+            <CardFooter className="p-4">
+              <Skeleton className="h-10 w-24" />
+            </CardFooter>
+          </Card>
+        ))}
       </div>
     )
   }
 
   return (
-    <section className="w-full py-12 md:py-24 lg:py-32 bg-muted/50">
-      <div className="container px-4 md:px-6">
-        <div className="flex flex-col items-center justify-center space-y-4 text-center">
-          <div className="space-y-2">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Healthcare News</h2>
-            <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              Stay updated with the latest healthcare news from India
-            </p>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {news.map((article, index) => (
+        <Card key={index} className="overflow-hidden">
+          <div className="relative h-48">
+            <Image
+              src={article.urlToImage ? `/api/news/image?url=${encodeURIComponent(article.urlToImage)}` : '/placeholder.jpg'}
+              alt={article.title}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
           </div>
-        </div>
-
-        <div className="mx-auto grid max-w-5xl gap-6 py-12 lg:grid-cols-3 lg:gap-12">
-          {news.slice(0, 6).map((item, index) => (
-            <div key={index} className="flex flex-col space-y-4">
-              <div className="relative aspect-video overflow-hidden rounded-lg">
-                <Image
-                  src={item.urlToImage || '/assets/news-placeholder.jpg'}
-                  alt={item.title}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="space-y-2">
-                <h3 className="font-bold leading-tight">{item.title}</h3>
-                <p className="text-sm text-muted-foreground">{item.description}</p>
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-muted-foreground">{new Date(item.publishedAt).toLocaleDateString()}</span>
-                  <Button variant="ghost" size="sm" asChild>
-                    <a href={item.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1">
-                      Read More <ExternalLink className="h-4 w-4" />
-                    </a>
-                  </Button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+          <CardContent className="p-4">
+            <h3 className="font-semibold mb-2 line-clamp-2">{article.title}</h3>
+            <p className="text-sm text-muted-foreground line-clamp-3">
+              {article.description}
+            </p>
+          </CardContent>
+          <CardFooter className="p-4">
+            <Link href={article.url} target="_blank" rel="noopener noreferrer">
+              <Button variant="outline">Read More</Button>
+            </Link>
+          </CardFooter>
+        </Card>
+      ))}
+    </div>
   )
 } 
