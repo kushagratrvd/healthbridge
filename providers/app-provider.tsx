@@ -2,83 +2,78 @@
 
 import { createContext, useState, useContext, type ReactNode, useEffect } from "react"
 
-// Mock doctors data - in a real app, you would fetch this from an API
+// Mock doctors data
 const doctorsData = [
   {
     _id: "1",
-    name: "Dr. Michael Chen",
-    speciality: "Cardiology",
-    image: "/placeholder.svg?height=200&width=200",
+    name: "Dr. Sarah Johnson",
+    speciality: "Cardiologist",
+    image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=300&h=300&auto=format&fit=crop",
     degree: "MD, FACC",
-    experience: "15+ years",
+    experience: "15 years",
     fees: 150,
-    about:
-      "Dr. Michael Chen is a board-certified cardiologist with over 15 years of experience in treating cardiovascular diseases. He specializes in preventive cardiology, heart failure management, and interventional procedures.",
+    about: "Dr. Johnson is a board-certified cardiologist with extensive experience in treating heart conditions. She specializes in preventive cardiology and heart failure management.",
     address: {
-      line1: "123 Medical Center Blvd, Suite 300",
-      line2: "San Francisco, CA 94143",
-    },
+      line1: "123 Medical Center Drive",
+      line2: "Suite 101, New York, NY 10001"
+    }
   },
   {
     _id: "2",
-    name: "Dr. Sarah Johnson",
-    speciality: "Neurology",
-    image: "/placeholder.svg?height=200&width=200",
+    name: "Dr. Michael Chen",
+    speciality: "Neurologist",
+    image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=300&h=300&auto=format&fit=crop",
     degree: "MD, PhD",
-    experience: "12+ years",
+    experience: "12 years",
     fees: 180,
-    about:
-      "Dr. Sarah Johnson is a neurologist specializing in the diagnosis and treatment of disorders of the nervous system, including the brain, spinal cord, and peripheral nerves.",
+    about: "Dr. Chen is a leading neurologist specializing in movement disorders and neurodegenerative diseases. He combines clinical expertise with cutting-edge research.",
     address: {
-      line1: "456 Health Sciences Drive",
-      line2: "San Francisco, CA 94158",
-    },
+      line1: "456 Neuroscience Boulevard",
+      line2: "Floor 3, Boston, MA 02115"
+    }
   },
   {
     _id: "3",
-    name: "Dr. James Wilson",
-    speciality: "Pediatrics",
-    image: "/placeholder.svg?height=200&width=200",
+    name: "Dr. Emily Rodriguez",
+    speciality: "Pediatrician",
+    image: "https://images.unsplash.com/photo-1594824476967-48c8b964273f?q=80&w=300&h=300&auto=format&fit=crop",
     degree: "MD, FAAP",
-    experience: "10+ years",
+    experience: "10 years",
     fees: 120,
-    about:
-      "Dr. James Wilson is a board-certified pediatrician dedicated to providing comprehensive care for children from birth through adolescence. He focuses on preventive care and childhood development.",
+    about: "Dr. Rodriguez is a compassionate pediatrician dedicated to providing comprehensive care for children from newborns to adolescents. She has a special interest in childhood development and preventive care.",
     address: {
       line1: "789 Children's Way",
-      line2: "San Francisco, CA 94110",
-    },
+      line2: "Chicago, IL 60601"
+    }
   },
   {
     _id: "4",
-    name: "Dr. Emily Rodriguez",
-    speciality: "Orthopedics",
-    image: "/placeholder.svg?height=200&width=200",
+    name: "Dr. James Wilson",
+    speciality: "Orthopedic Surgeon",
+    image: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=300&h=300&auto=format&fit=crop",
     degree: "MD, FAAOS",
-    experience: "14+ years",
-    fees: 160,
-    about:
-      "Dr. Emily Rodriguez is an orthopedic surgeon specializing in sports medicine and joint replacement. She has extensive experience treating athletes and helping patients regain mobility.",
+    experience: "18 years",
+    fees: 200,
+    about: "Dr. Wilson is a highly skilled orthopedic surgeon specializing in sports medicine and joint replacement. He has helped numerous athletes return to peak performance.",
     address: {
-      line1: "321 Sports Medicine Parkway",
-      line2: "San Francisco, CA 94107",
-    },
+      line1: "321 Sports Medicine Center",
+      line2: "Los Angeles, CA 90012"
+    }
   },
   {
     _id: "5",
-    name: "Dr. David Kim",
-    speciality: "Dermatology",
-    image: "/placeholder.svg?height=200&width=200",
+    name: "Dr. Priya Patel",
+    speciality: "Dermatologist",
+    image: "https://images.unsplash.com/photo-1651008376811-b90baee60c1f?q=80&w=300&h=300&auto=format&fit=crop",
     degree: "MD, FAAD",
-    experience: "8+ years",
-    fees: 140,
-    about:
-      "Dr. David Kim is a board-certified dermatologist specializing in medical, surgical, and cosmetic dermatology. He treats conditions affecting the skin, hair, and nails.",
+    experience: "8 years",
+    fees: 160,
+    about: "Dr. Patel is a board-certified dermatologist specializing in both medical and cosmetic dermatology. She is known for her expertise in treating complex skin conditions.",
     address: {
-      line1: "555 Skin Care Boulevard",
-      line2: "San Francisco, CA 94115",
-    },
-  },
+      line1: "567 Skin Care Lane",
+      line2: "Miami, FL 33101"
+    }
+  }
 ]
 
 // Define types for our context
