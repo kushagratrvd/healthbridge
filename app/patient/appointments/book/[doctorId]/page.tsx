@@ -186,7 +186,12 @@ export default function DoctorProfilePage({ params }: { params: { doctorId: stri
 
                     <div className="flex flex-wrap gap-2">
                       <Badge variant="secondary">English</Badge>
-                      <Badge variant="secondary">Spanish</Badge>
+                      <Badge variant="secondary">Hindi</Badge>
+                      {doctor.name.includes("Kumar") && <Badge variant="secondary">Punjabi</Badge>}
+                      {doctor.name.includes("Sharma") && <Badge variant="secondary">Hindi</Badge>}
+                      {doctor.name.includes("Patel") && <Badge variant="secondary">Gujarati</Badge>}
+                      {doctor.name.includes("Reddy") && <Badge variant="secondary">Telugu</Badge>}
+                      {doctor.name.includes("Gupta") && <Badge variant="secondary">Bengali</Badge>}
                     </div>
                   </div>
                 </div>
