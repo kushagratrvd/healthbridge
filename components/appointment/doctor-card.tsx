@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { Doctor } from "@/providers/app-provider"
 import { Card, CardContent } from "@/components/ui/card"
 import { useRouter } from "next/navigation"
@@ -12,6 +13,9 @@ interface DoctorCardProps {
 
 export function DoctorCard({ doctor, compact }: DoctorCardProps) {
   const router = useRouter()
+  const [imageError, setImageError] = useState(false)
+
+  const imageSrc = imageError || !doctor.image ? "/placeholder.svg" : doctor.image
 
   return (
     <Card 
@@ -21,16 +25,14 @@ export function DoctorCard({ doctor, compact }: DoctorCardProps) {
       <CardContent className="p-0">
         <div className="relative w-full aspect-[4/3] bg-muted">
           <Image
-            src={doctor.image || "/placeholder.svg"}
+            src={imageSrc}
             alt={`Dr. ${doctor.name}`}
             fill
             className="object-cover"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             priority={true}
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              target.src = "/placeholder.svg";
-            }}
+            onError={() => setImageError(true)}
+            loading="eager"
           />
         </div>
         <div className="p-4">
@@ -45,7 +47,7 @@ export function DoctorCard({ doctor, compact }: DoctorCardProps) {
           </div>
           <h3 className="font-semibold text-lg">{doctor.name}</h3>
           <p className="text-muted-foreground">{doctor.speciality}</p>
-          {!compact && (
+          {!compact && doctor.fees && (
             <p className="text-sm text-muted-foreground mt-1">
               ${doctor.fees} per consultation
             </p>

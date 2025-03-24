@@ -1,17 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  images: {
-    unoptimized: true,
-  },
   output: 'standalone',
   images: {
-    domains: ['placeholder.com', 'images.unsplash.com'],
+    domains: ['placeholder.com', 'images.unsplash.com', 'randomuser.me', 'cloudinary.com'],
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'images.unsplash.com',
-      },
+        hostname: '**',
+      }
     ],
+    unoptimized: true,
+    dangerouslyAllowSVG: true,
   },
   staticPageGenerationTimeout: 120,
   compiler: {
