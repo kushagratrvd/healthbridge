@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { useAppContext } from "@/context/app-context"
+import { useAppContext } from "@/providers/app-provider"
 import { DoctorCard } from "./doctor-card"
 import { Button } from "@/components/ui/button"
-import type { Doctor } from "@/context/app-context"
+import type { Doctor } from "@/providers/app-provider"
 
 export function RelatedDoctors({ docId, speciality }: { docId: string; speciality: string }) {
   const { doctors } = useAppContext()
