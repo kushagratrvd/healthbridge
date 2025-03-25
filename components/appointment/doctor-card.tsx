@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Doctor } from "@/providers/app-provider"
+import { Doctor } from "@/app/providers/app-provider"
 import { Card, CardContent } from "@/components/ui/card"
 import { useRouter } from "next/navigation"
 import Image from "next/image"

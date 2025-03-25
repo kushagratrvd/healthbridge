@@ -5,7 +5,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { Star, MapPin, Phone, Mail, Award, Stethoscope, Building, CheckCircle, ArrowLeft, Video, Calendar } from "lucide-react"
-import { useAppContext, type Doctor } from "@/providers/app-provider"
+import { useAppContext, type Doctor } from "@/app/providers/app-provider"
 import { useTranslation } from "@/components/translation-provider"
 
 import { Button } from "@/components/ui/button"

@@ -1,6 +1,6 @@
 "use client"
 
-import { useAppContext } from "@/providers/app-provider"
+import { useAppContext } from "@/app/providers/app-provider"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { FileText, Upload } from "lucide-react"
