@@ -29,7 +29,7 @@ interface AppContextType {
   isLoading: boolean
   currencySymbol: string
   addAppointment: (appointment: Appointment) => void
-  removeAppointment: (appointmentId: string) => void
+  removeAppointment: (appointmentId: number) => void
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined)
@@ -106,8 +106,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem("appointments", JSON.stringify(newAppointments))
   }
 
-  const removeAppointment = (appointmentId: string) => {
-    const newAppointments = appointments.filter((_, index) => index.toString() !== appointmentId)
+  const removeAppointment = (appointmentId: number) => {
+    const newAppointments = appointments.filter((_, index) => index !== appointmentId)
     setAppointments(newAppointments)
     localStorage.setItem("appointments", JSON.stringify(newAppointments))
   }
