@@ -194,18 +194,52 @@ export async function registerUser(email: string, password: string, role = "pati
     const name = email.split("@")[0]
     const hashedPassword = hashPassword(password)
 
-    // Add to mock database
-    mockUsers.set(email.toLowerCase(), {
+    // Create the new user object
+    const newUser = {
       id: userId,
       email: email.toLowerCase(),
       name,
       password: hashedPassword,
       role,
+    }
+
+    // Add to mock database
+    mockUsers.set(email.toLowerCase(), newUser)
+
+    // Create a user session
+    const userSession = {
+      id: userId,
+      email: newUser.email,
+      name: newUser.name,
+      role: newUser.role,
+      isAuthenticated: true,
+    }
+
+    // Set the session cookie
+    cookies().set("user-session", JSON.stringify(userSession), {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 60 * 60 * 24 * 7, // 1 week
+      path: "/",
     })
+
+    // Determine redirect path based on role
+    let redirectPath = "/patient/dashboard"
+    if (role === "admin") {
+      redirectPath = "/admin/dashboard"
+    } else if (role === "provider") {
+      redirectPath = "/provider/dashboard"
+    }
 
     return {
       success: true,
-      message: "Registration successful. You can now log in.",
+      message: "Registration successful!",
+      user: {
+        email: newUser.email,
+        name: newUser.name,
+        role: newUser.role,
+      },
+      redirectPath,
     }
   } catch (error) {
     console.error("Error registering user:", error)

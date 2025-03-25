@@ -172,11 +172,11 @@ export default function DoctorProfilePage({ params }: { params: { doctorId: stri
                       </div>
                       <div className="flex items-center gap-2 text-sm">
                         <Phone className="h-4 w-4 text-muted-foreground" />
-                        <span>+1 (555) 123-4567</span>
+                        <span>+91 {Math.floor(Math.random() * 9000000000 + 1000000000)}</span>
                       </div>
                       <div className="flex items-center gap-2 text-sm">
                         <Mail className="h-4 w-4 text-muted-foreground" />
-                        <span>{doctor.name.toLowerCase().replace(" ", ".")}@healthbridge.org</span>
+                        <span>{doctor.name.toLowerCase().replace(/\s+/g, ".")}@healthbridge.org</span>
                       </div>
                       <div className="flex items-center gap-2 text-sm">
                         <Award className="h-4 w-4 text-muted-foreground" />

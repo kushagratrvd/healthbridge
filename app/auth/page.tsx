@@ -127,10 +127,9 @@ export default function AuthPage() {
       const result = await registerUser(registerEmail, registerPassword, userType)
 
       if (result.success) {
-        setRegisterSuccess("Registration successful! You can now log in.")
         toast({
           title: "Registration successful",
-          description: "Your account has been created. You can now log in.",
+          description: "Your account has been created. Redirecting to dashboard...",
         })
 
         // Clear form
@@ -138,9 +137,10 @@ export default function AuthPage() {
         setRegisterPassword("")
         setConfirmPassword("")
 
-        // Switch to login tab
-        const loginTab = document.querySelector('[data-value="login"]') as HTMLElement
-        loginTab?.click()
+        // Short delay to show the success message before redirect
+        setTimeout(() => {
+          window.location.href = result.redirectPath || "/patient/dashboard"
+        }, 1500)
       } else {
         throw new Error(result.error || "Registration failed")
       }

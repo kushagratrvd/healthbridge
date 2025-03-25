@@ -58,24 +58,24 @@ export function DynamicTranslation({ text, className = "" }: DynamicTranslationP
 
   if (isTranslating) {
     return (
-      <div className={className}>
-        <div className="flex items-center">
+      <span className={className}>
+        <span className="flex items-center">
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           <span className="text-muted-foreground">Translating...</span>
-        </div>
-      </div>
+        </span>
+      </span>
     )
   }
 
   if (error) {
     return (
-      <div className={className}>
+      <span className={className}>
         {text}
-        <div className="text-xs text-red-500 mt-1">(Translation error)</div>
-      </div>
+        <span className="text-xs text-red-500 mt-1">(Translation error)</span>
+      </span>
     )
   }
 
-  return <div className={className}>{translatedText}</div>
+  return <span className={className}>{translatedText}</span>
 }
 

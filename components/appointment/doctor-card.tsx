@@ -49,7 +49,7 @@ export function DoctorCard({ doctor, compact }: DoctorCardProps) {
           <p className="text-muted-foreground">{doctor.speciality}</p>
           {!compact && doctor.fees && (
             <p className="text-sm text-muted-foreground mt-1">
-              ${doctor.fees} per consultation
+              ₹{doctor.fees} per consultation
             </p>
           )}
         </div>

@@ -6,79 +6,74 @@ import { createContext, useState, useContext, type ReactNode, useEffect } from "
 const doctorsData = [
   {
     _id: "1",
-    name: "Dr. Michael Chen",
-    speciality: "Cardiology",
-    image: "/placeholder.svg?height=200&width=200",
-    degree: "MD, FACC",
-    experience: "15+ years",
-    fees: 150,
-    about:
-      "Dr. Michael Chen is a board-certified cardiologist with over 15 years of experience in treating cardiovascular diseases. He specializes in preventive cardiology, heart failure management, and interventional procedures.",
+    name: "Dr. Rajesh Kumar",
+    speciality: "Cardiologist",
+    image: "/assets/doctors/doc5.png",
+    degree: "MD, DM (Cardiology)",
+    experience: "15 years",
+    fees: 1500,
+    about: "Dr. Kumar is a renowned cardiologist with extensive experience in treating complex heart conditions. He specializes in interventional cardiology and preventive cardiac care.",
     address: {
-      line1: "123 Medical Center Blvd, Suite 300",
-      line2: "San Francisco, CA 94143",
-    },
+      line1: "123 Healthcare Complex, Bandra West",
+      line2: "Mumbai, Maharashtra 400050"
+    }
   },
   {
     _id: "2",
-    name: "Dr. Sarah Johnson",
-    speciality: "Neurology",
-    image: "/placeholder.svg?height=200&width=200",
-    degree: "MD, PhD",
-    experience: "12+ years",
-    fees: 180,
-    about:
-      "Dr. Sarah Johnson is a neurologist specializing in the diagnosis and treatment of disorders of the nervous system, including the brain, spinal cord, and peripheral nerves.",
+    name: "Dr. Priya Sharma",
+    speciality: "Neurologist",
+    image: "/assets/doctors/doc6.png",
+    degree: "MD, DM (Neurology)",
+    experience: "12 years",
+    fees: 1800,
+    about: "Dr. Sharma is a leading neurologist specializing in movement disorders and neurodegenerative diseases. She combines traditional expertise with modern treatment approaches.",
     address: {
-      line1: "456 Health Sciences Drive",
-      line2: "San Francisco, CA 94158",
-    },
+      line1: "456 Medical Centre, Vasant Vihar",
+      line2: "New Delhi, Delhi 110057"
+    }
   },
   {
     _id: "3",
-    name: "Dr. James Wilson",
-    speciality: "Pediatrics",
-    image: "/placeholder.svg?height=200&width=200",
-    degree: "MD, FAAP",
-    experience: "10+ years",
-    fees: 120,
-    about:
-      "Dr. James Wilson is a board-certified pediatrician dedicated to providing comprehensive care for children from birth through adolescence. He focuses on preventive care and childhood development.",
+    name: "Dr. Arun Patel",
+    speciality: "Pediatrician",
+    image: "/assets/doctors/doc7.png",
+    degree: "MD (Pediatrics), DNB",
+    experience: "10 years",
+    fees: 1200,
+    about: "Dr. Patel is a compassionate pediatrician dedicated to providing comprehensive care for children from newborns to adolescents. He has a special interest in childhood development and preventive care.",
     address: {
-      line1: "789 Children's Way",
-      line2: "San Francisco, CA 94110",
-    },
+      line1: "789 Children's Hospital, Koramangala",
+      line2: "Bangalore, Karnataka 560034"
+    }
   },
   {
     _id: "4",
-    name: "Dr. Emily Rodriguez",
-    speciality: "Orthopedics",
-    image: "/placeholder.svg?height=200&width=200",
-    degree: "MD, FAAOS",
-    experience: "14+ years",
-    fees: 160,
-    about:
-      "Dr. Emily Rodriguez is an orthopedic surgeon specializing in sports medicine and joint replacement. She has extensive experience treating athletes and helping patients regain mobility.",
+    name: "Dr. Meera Reddy",
+    speciality: "Orthologist",
+    image: "/assets/doctors/doc8.png",
+    degree: "MS (Ortho), DNB",
+    experience: "18 years",
+    fees: 2000,
+    about: "Dr. Reddy is a highly skilled orthopedic surgeon specializing in sports medicine and joint replacement. She has helped numerous patients regain mobility and lead active lives.",
     address: {
-      line1: "321 Sports Medicine Parkway",
-      line2: "San Francisco, CA 94107",
-    },
+      line1: "321 Bone & Joint Clinic, Jubilee Hills",
+      line2: "Hyderabad, Telangana 500033"
+    }
   },
   {
     _id: "5",
-    name: "Dr. David Kim",
-    speciality: "Dermatology",
-    image: "/placeholder.svg?height=200&width=200",
-    degree: "MD, FAAD",
-    experience: "8+ years",
-    fees: 140,
-    about:
-      "Dr. David Kim is a board-certified dermatologist specializing in medical, surgical, and cosmetic dermatology. He treats conditions affecting the skin, hair, and nails.",
+    name: "Dr. Sanjay Gupta",
+    speciality: "Dermatologist",
+    image: "/assets/doctors/doc9.png",
+    degree: "MD (Dermatology), DVD",
+    experience: "8 years",
+    fees: 1600,
+    about: "Dr. Gupta is a board-certified dermatologist specializing in both medical and cosmetic dermatology. He is known for his expertise in treating complex skin conditions using advanced techniques.",
     address: {
-      line1: "555 Skin Care Boulevard",
-      line2: "San Francisco, CA 94115",
-    },
-  },
+      line1: "567 Skin Care Centre, Salt Lake",
+      line2: "Kolkata, West Bengal 700091"
+    }
+  }
 ]
 
 // Define types for our context
@@ -126,11 +121,19 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [isClient, setIsClient] = useState(false)
   const [appointments, setAppointments] = useState<Appointment[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [doctors, setDoctors] = useState<Doctor[]>([])
 
   // Use useEffect to ensure this only runs on the client
   useEffect(() => {
     setIsClient(true)
-    setIsLoading(true)
+    
+    // Initialize doctors data
+    setDoctors(doctorsData)
+
+    // Simulate loading delay
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 1000)
 
     // Load appointments from localStorage if available
     try {
@@ -142,7 +145,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       console.error("Failed to parse saved appointments", e)
     }
 
-    setIsLoading(false)
+    return () => clearTimeout(timer)
   }, [])
 
   // Save appointments to localStorage when they change
@@ -161,8 +164,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }
 
   const value = {
-    doctors: doctorsData,
-    currencySymbol: "$",
+    doctors,
+    currencySymbol: "₹",
     appointments,
     addAppointment,
     removeAppointment,
