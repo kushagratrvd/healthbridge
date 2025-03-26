@@ -8,7 +8,7 @@ export async function GET() {
     }
 
     const response = await fetch(
-      `https://newsapi.org/v2/everything?q=healthcare+india&language=en&sortBy=publishedAt&pageSize=6&apiKey=${apiKey}`
+      `https://newsapi.org/v2/everything?q=(healthcare OR medical OR medicine OR doctor OR hospital OR treatment OR disease OR health) AND india&language=en&sortBy=publishedAt&pageSize=6&apiKey=${apiKey}`
     )
 
     if (!response.ok) {

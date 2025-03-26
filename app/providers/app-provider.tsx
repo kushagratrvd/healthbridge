@@ -47,7 +47,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         _id: "1",
         name: "Dr. Rajesh Kumar",
         speciality: "Cardiologist",
-        image: "/assets/doctors/doc5.png",
+        image: "/assets/doctors/doc1.png",
         degree: "MD, DM (Cardiology)",
         experience: "15 years",
         fees: 1500,
@@ -61,7 +61,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         _id: "2",
         name: "Dr. Priya Sharma",
         speciality: "Pediatrician",
-        image: "/assets/doctors/doc6.png",
+        image: "/assets/doctors/doc2.png",
         degree: "MD, DNB (Pediatrics)",
         experience: "12 years",
         fees: 1200,
@@ -75,7 +75,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         _id: "3",
         name: "Dr. Amit Patel",
         speciality: "Orthopedist",
-        image: "/assets/doctors/doc7.png",
+        image: "/assets/doctors/doc3.png",
         degree: "MS (Orthopedics)",
         experience: "18 years",
         fees: 2000,
@@ -87,7 +87,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       },
       {
         _id: "4",
-        name: "Dr. Meera Reddy",
+        name: "Dr. Priyanshu Dubey",
         speciality: "Neurologist",
         image: "/assets/doctors/doc8.png",
         degree: "MD, DM (Neurology)",
@@ -103,7 +103,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         _id: "5",
         name: "Dr. Arun Verma",
         speciality: "Dermatologist",
-        image: "/assets/doctors/doc9.png",
+        image: "/assets/doctors/doc4.png",
         degree: "MD (Dermatology)",
         experience: "10 years",
         fees: 1000,
@@ -113,6 +113,48 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           line2: "Mumbai, India"
         }
       },
+      {
+        _id: "6",
+        name: "Dr. Sangeeta Gupta",
+        speciality: "Gynecologist",
+        image: "/assets/doctors/doc5.png",
+        degree: "MD, DGO",
+        experience: "16 years",
+        fees: 1500,
+        about: "Specialized in women's health, pregnancy care, and gynecological surgeries.",
+        address: {
+          line1: "Artemis Hospital",
+          line2: "Gurgaon, India"
+        }
+      },
+      {
+        _id: "7",
+        name: "Dr. Vikram Singh",
+        speciality: "ENT Specialist",
+        image: "/assets/doctors/doc6.png",
+        degree: "MS (ENT)",
+        experience: "13 years",
+        fees: 1200,
+        about: "Expert in treating ear, nose, and throat conditions with focus on minimally invasive procedures.",
+        address: {
+          line1: "Medanta Hospital",
+          line2: "Delhi, India"
+        }
+      },
+      {
+        _id: "8",
+        name: "Dr. Anjali Desai",
+        speciality: "Psychiatrist",
+        image: "/assets/doctors/doc9.png",
+        degree: "MD (Psychiatry)",
+        experience: "11 years",
+        fees: 2000,
+        about: "Specialized in mental health disorders, stress management, and behavioral therapy.",
+        address: {
+          line1: "Manipal Hospital",
+          line2: "Bangalore, India"
+        }
+      }
     ]
 
     // Simulate API delay
