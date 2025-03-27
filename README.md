@@ -9,6 +9,7 @@ HealthBridge is a modern healthcare platform designed to bridge the gap between 
 - **Multi-language Support**: Available in English, Hindi, Tamil, Telugu, Kannada, and Malayalam
 - **AI-Powered Health Assistant**: Get instant health insights and recommendations
 - **Symptom Checker**: AI-powered preliminary health assessment
+- **Prescription Scanner**: Upload the prescription and get clear indications from doctor's handwriting
 - **Medical Records Management**: Access and manage your medical history
 - **Telehealth Consultations**: Connect with doctors remotely
 
@@ -98,46 +99,9 @@ yarn dev
 - Kannada (kn)
 - Malayalam (ml)
 
-## 💰 Cost Structure
 
-### Monthly Operational Costs
-- Cloud Infrastructure (Vercel Pro): $20
-- AI/ML Services (Google Cloud): $150-200
-- Database Hosting: $50-100
-- CDN Services: Included with Vercel
-- SMS/Email Services: $20-30
-- Total: $240-350/month
 
-## 🤝 Contributing
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
 
-## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 👥 Team
-
-- Frontend Development
-- Backend Development
-- UI/UX Design
-- Healthcare Domain Experts
-- AI/ML Specialists
-
-## 📞 Support
-
-For support, email support@healthbridge.org or join our Slack channel.
-
-## 🙏 Acknowledgments
-
-- All healthcare providers and hospitals
-- Open source community
-- Contributors and maintainers
-
----
-
-Made with ❤️ for better healthcare in India 
